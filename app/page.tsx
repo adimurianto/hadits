@@ -1,12 +1,30 @@
 "use client";
 
-import { Button, Grid, Stack } from "@mui/material";
+import Footers from "./common/footers";
+import Headers from "./common/headers";
+import { PaperClipIcon } from '@heroicons/react/20/solid'
 
 export default function Home() {
   return (
-    <Grid container height="100vh" alignItems="center" justifyContent="center" direction="column">
-      <h1 className="text-blue-500">Hadits App</h1>
-      <h2 className="text-red-500">Coming Soon</h2>
-    </Grid>
-  );
+    <div>
+      <Headers />
+
+      <main className="overflow-hidden shadow sm:rounded-lg">
+        {
+          [0,1,2,3,4,5,6,7,8,9].map((index) => {
+            return (
+              <div className="px-4 py-5 sm:px-6">
+                <h2 className="text-lg font-large leading-6 text-white">Hadits Berbagai Perawi</h2>
+                <p className="mt-1 max-w-2xl text-sm text-gray-500">Kumpulan hadits dari berbagai perawi kami sajikan disini.</p>
+                <hr className="w-full"/>
+              </div>
+            )
+          })
+        }
+
+      </main>
+
+      <Footers />
+    </div>
+  )
 }
