@@ -1,21 +1,44 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Footers from "./common/footers";
 import Headers from "./common/headers";
-import { PaperClipIcon } from '@heroicons/react/20/solid'
+import axios from "axios";
+import { Hadits } from "./types/hadits";
 
-export default function Home() {
+interface haditsPageProps {
+  hadits: Hadits
+}
+
+export default function Home({hadits}: haditsPageProps) {
+  const [list, setList] = useState(hadits);
+
+  useEffect(()=>{
+      const loadHadits = async ()=>{
+        try {
+          const result = await axios.get("https://api.hadith.gading.dev/books/bukhari?range=1-10");
+          const initialData = result.data;
+          setList(initialData);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      loadHadits();
+  },[])
+  
+  console.log('List Hadits : ', list?.data?.hadiths);
+
   return (
     <div>
       <Headers />
 
       <main className="overflow-hidden shadow sm:rounded-lg">
         {
-          [0,1,2,3,4,5,6,7,8,9].map((index) => {
+          list?.data?.hadiths.map((item:any, index:number) => {
             return (
               <div className="px-4 py-5 sm:px-6">
-                <h2 className="text-lg font-large leading-6 text-white">Hadits Berbagai Perawi</h2>
-                <p className="mt-1 max-w-2xl text-sm text-gray-500">Kumpulan hadits dari berbagai perawi kami sajikan disini.</p>
+                <h2 className="text-lg font-large leading-6 text-white text-right">{item.arab}</h2>
+                <p className="mt-1 text-sm text-gray-500 w-full">{item.id}</p>
                 <hr className="w-full"/>
               </div>
             )
