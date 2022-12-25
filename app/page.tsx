@@ -5,13 +5,25 @@ import Footers from "./common/footers";
 import Headers from "./common/headers";
 import axios from "axios";
 import { Hadits } from "./types/hadits";
+import { perawi } from "./types/perawi";
 
-interface haditsPageProps {
-  hadits: Hadits
-}
+export default function Home () {
+  // Set Default Value, Because we can't set props on Home
+  let dataHadits:Hadits = {
+    'code': 1,
+    'data': {'id':'0','name':'','hadiths':[]},
+    'error': false,
+    'message': ''
+  };
 
-export default function Home({hadits}: haditsPageProps) {
-  const [list, setList] = useState(hadits);
+  let dataPerawi:perawi = {
+    'books': [],
+    'message': '',
+    'status': 0
+  }
+
+  // Create state for list data hadits
+  const [list, setList] = useState(dataHadits);
 
   useEffect(()=>{
       const loadHadits = async ()=>{
@@ -25,18 +37,16 @@ export default function Home({hadits}: haditsPageProps) {
       }
       loadHadits();
   },[])
-  
-  console.log('List Hadits : ', list?.data?.hadiths);
 
   return (
     <div>
-      <Headers />
+      <Headers result={dataPerawi} />
 
       <main className="overflow-hidden shadow sm:rounded-lg">
         {
           list?.data?.hadiths.map((item:any, index:number) => {
             return (
-              <div className="px-4 py-5 sm:px-6">
+              <div key={index} className="px-4 py-5 sm:px-6">
                 <h2 className="text-lg font-large leading-6 text-white text-right">{item.arab}</h2>
                 <p className="mt-1 text-sm text-gray-500 w-full">{item.id}</p>
                 <hr className="w-full"/>

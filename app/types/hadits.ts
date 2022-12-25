@@ -1,16 +1,16 @@
-export interface hadiths {
+export type hadiths = {
     arab: string
     id: string
     number: number
 }
 
-export interface data {
+export type data = {
     id: string
     name: string
     hadiths: hadiths[]
 }
 
-export interface Hadits {
+export type Hadits = {
     code: number
     data: data
     error: boolean

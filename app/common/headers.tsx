@@ -1,13 +1,18 @@
 "use client";
 
-import { Fragment } from 'react'
-import { Popover, Transition } from '@headlessui/react'
+import { Fragment, useEffect, useState } from 'react';
+import { Popover, Transition } from '@headlessui/react';
 import {
   Bars3Icon,
   XMarkIcon,
-} from '@heroicons/react/24/outline'
+} from '@heroicons/react/24/outline';
+import Navbar from './navbar';
 
-export default function Headers() {
+type PerawiProps = {
+  result: any
+}
+
+export default function Headers({result}: PerawiProps) {
   return (
     <Popover className="relative bg-gray-800 text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
@@ -29,12 +34,7 @@ export default function Headers() {
             </Popover.Button>
           </div>
           <Popover.Group as="nav" className="hidden space-x-10 md:flex">
-            <a href="#" className="text-base font-medium text-white hover:text-white">
-              Perawi
-            </a>
-            <a href="#" className="text-base font-medium text-white hover:text-white">
-              About
-            </a>
+            <Navbar result />
           </Popover.Group>
         </div>
       </div>
