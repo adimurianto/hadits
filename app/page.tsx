@@ -6,8 +6,11 @@ import Headers from "./common/headers";
 import axios from "axios";
 import { Hadits } from "./types/hadits";
 import { perawi } from "./types/perawi";
+import { useSelector } from "react-redux";
 
 export default function Home () {
+  const perawiSelected = useSelector((state:any) => state?.perawi);
+  
   // Set Default Value, Because we can't set props on Home
   let dataHadits:Hadits = {
     'code': 1,
@@ -17,9 +20,10 @@ export default function Home () {
   };
 
   let dataPerawi:perawi = {
-    'books': [],
+    'data': [],
     'message': '',
-    'status': 0
+    'code': 0,
+    'error':false
   }
 
   // Create state for list data hadits
@@ -28,7 +32,7 @@ export default function Home () {
   useEffect(()=>{
       const loadHadits = async ()=>{
         try {
-          const result = await axios.get("https://api.hadith.gading.dev/books/bukhari?range=1-10");
+          const result = await axios.get(`https://api.hadith.gading.dev/books/${(perawiSelected ? perawiSelected?.perawi : 'bukhari')}?range=1-15`);
           const initialData = result.data;
           setList(initialData);
         } catch (error) {
@@ -36,7 +40,7 @@ export default function Home () {
         }
       }
       loadHadits();
-  },[])
+  },[perawiSelected])
 
   return (
     <div>

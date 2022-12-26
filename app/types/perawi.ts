@@ -1,16 +1,12 @@
-export type book = {
-    aboutWriter: string
-    bookName: string
-    bookSlug: string
-    chapters_count: string
-    hadiths_count:string
-    id: number
-    writerDeath: string
-    writerName: string
+export type data = {
+    available: number
+    id: string
+    name: string
 }
 
 export type perawi = {
-    books: book[]
+    data: data[]
     message: string
-    status: number
+    error: boolean
+    code: number
 }

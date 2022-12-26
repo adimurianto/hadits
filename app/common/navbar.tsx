@@ -2,6 +2,8 @@ import { Fragment, useEffect, useState } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { updatePerawi } from '../../features/Perawi/actions';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -10,10 +12,13 @@ function classNames(...classes: string[]) {
 export default function Navbar(result: any) {
   const [resData, setResData] = useState(result);
 
+  const perawiSelected = useSelector((state:any) => state?.perawi);
+  const dispatch = useDispatch();
+
   useEffect(()=>{
       const loadPerawi = async ()=>{
         try {
-          const result = await axios.get(`https://hadithapi.com/api/books?apiKey=${process.env.secretKey}`);
+          const result = await axios.get(`https://api.hadith.gading.dev/books`);
           const initialPerawi = result.data;
           setResData(initialPerawi);
         } catch (error) {
@@ -43,7 +48,7 @@ export default function Navbar(result: any) {
       >
         <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"  id="1">
           {
-            resData?.books?.map((item: any) => {
+            resData?.data?.map((item: any) => {
               return (
                 <div className="py-1" key={item?.id}>
                   <Menu.Item>
@@ -54,8 +59,9 @@ export default function Navbar(result: any) {
                           active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                           'block px-4 py-2 text-sm'
                         )}
+                        onClick={() => dispatch(updatePerawi(item?.id))}
                       >
-                        {item?.bookName}
+                        Perawi {item?.name}
                       </a>
                     )}
                   </Menu.Item>
